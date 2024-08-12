@@ -1,11 +1,414 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Intro to graphics | Sample | ArcGIS Maps SDK for JavaScript 4.30</title>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.30/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <script>
+      require(["esri/Map", "esri/views/MapView", "esri/Graphic"], (Map, MapView, Graphic) => {
+        const map = new Map({
+          basemap: "hybrid"
+        });
+
+        const view = new MapView({
+          center: [127.29589675143325, 36.351725836019796],
+          container: "viewDiv",
+          map: map,
+          zoom: 3
+        });
+
+        /*************************
+         * Create a point graphic
+         *************************/
+
+        // First create a point geometry (this is the location of the Titanic)
+        const point = {
+          type: "point", // autocasts as new Point()
+          longitude: 127.29923627278254,
+          latitude: 36.35339130619778,
+        };
+
+        // Create a symbol for drawing the point
+        const markerSymbol = {
+          type: "picture-marker", // autocasts as new SimpleMarkerSymbol()
+          url: "https://static.arcgis.com/images/Symbols/Shapes/BlackStarLargeB.png",
+          width: "64px",
+          height: "64px"
+        };
+
+        // Create a graphic and add the geometry and symbol to it
+        const pointGraphic = new Graphic({
+          geometry: point,
+          symbol: markerSymbol
+        });
+
+        /****************************
+         * Create a polyline graphic
+         ****************************/
+
+        // First create a line geometry (this is the Keystone pipeline)
+        const polyline = {
+          type: "polyline", // autocasts as new Polyline()
+          paths: [[-111.3, 52.68], [-98, 49.5], [-93.94, 29.89]]
+        };
+
+        // Create a symbol for drawing the line
+        const lineSymbol = {
+          type: "simple-line", // autocasts as SimpleLineSymbol()
+          color: [226, 119, 40],
+          width: 4
+        };
+
+        // Create an object for storing attributes related to the line
+        const lineAtt = {
+          Name: "Keystone Pipeline",
+          Owner: "TransCanada",
+          Length: "3,456 km"
+        };
+
+        /*******************************************
+         * Create a new graphic and add the geometry,
+         * symbol, and attributes to it. You may also
+         * add a simple PopupTemplate to the graphic.
+         * This allows users to view the graphic's
+         * attributes when it is clicked.
+         ******************************************/
+        const polylineGraphic = new Graphic({
+          geometry: polyline,
+          symbol: lineSymbol,
+          attributes: lineAtt,
+          popupTemplate: {
+            // autocasts as new PopupTemplate()
+            title: "{Name}",
+            content: [
+              {
+                type: "fields",
+                fieldInfos: [
+                  {
+                    fieldName: "Name"
+                  },
+                  {
+                    fieldName: "Owner"
+                  },
+                  {
+                    fieldName: "Length"
+                  }
+                ]
+              }
+            ]
+          }
+        });
+
+        /***************************
+         * Create a polygon graphic
+         ***************************/
+
+        // Create a polygon geometry
+        const polygon = {   
+          type: "polygon", // autocasts as new Polygon()
+          rings: [
+            [
+              127.2985945388741,
+              36.35311489216456
+            ],
+            [
+              127.29839039115855,
+              36.353106814734836
+            ],
+            [
+              127.29818820962313,
+              36.35308266024074
+            ],
+            [
+              127.29798994150785,
+              36.35304266131805
+            ],
+            [
+              127.29779749635472,
+              36.35298720320231
+            ],
+            [
+              127.29761272761372,
+              36.352916820017846
+            ],
+            [
+              127.29743741478917,
+              36.352832189632664
+            ],
+            [
+              127.29727324629916,
+              36.3527341271286
+            ],
+            [
+              127.29712180321272,
+              36.35262357695001
+            ],
+            [
+              127.29698454402195,
+              36.352501603806296
+            ],
+            [
+              127.29686279059553,
+              36.35236938241629
+            ],
+            [
+              127.29675771544868,
+              36.35222818619308
+            ],
+            [
+              127.2966703304528,
+              36.352079374978445
+            ],
+            [
+              127.2966014770928,
+              36.35192438194518
+            ],
+            [
+              127.29655181836627,
+              36.35176469979329
+            ],
+            [
+              127.29652183240209,
+              36.35160186637321
+            ],
+            [
+              127.29651180786037,
+              36.3514374498746
+            ],
+            [
+              127.29652184115679,
+              36.35127303372323
+            ],
+            [
+              127.29655183553922,
+              36.35111020133151
+            ],
+            [
+              127.29660150202407,
+              36.35095052084956
+            ],
+            [
+              127.29667036218427,
+              36.350795530063664
+            ],
+            [
+              127.29675775276095,
+              36.350646721587474
+            ],
+            [
+              127.29686283205471,
+              36.35050552848852
+            ],
+            [
+              127.29698458803479,
+              36.35037331048853
+            ],
+            [
+              127.29712184808778,
+              36.350251340870315
+            ],
+            [
+              127.29727329031198,
+              36.350140794217225
+            ],
+            [
+              127.29743745624836,
+              36.35004273510319
+            ],
+            [
+              127.29761276492599,
+              36.349958107842255
+            ],
+            [
+              127.2977975280862,
+              36.349887727396236
+            ],
+            [
+              127.29798996643909,
+              36.34983227152787
+            ],
+            [
+              127.2981882267961,
+              36.349792274275124
+            ],
+            [
+              127.29839039991325,
+              36.34976812080939
+            ],
+            [
+              127.2985945388741,
+              36.349760043726896
+            ],
+            [
+              127.29879867783498,
+              36.34976812080939
+            ],
+            [
+              127.29900085095211,
+              36.349792274275124
+            ],
+            [
+              127.29919911130912,
+              36.34983227152787
+            ],
+            [
+              127.29939154966202,
+              36.349887727396236
+            ],
+            [
+              127.29957631282223,
+              36.349958107842255
+            ],
+            [
+              127.29975162149987,
+              36.35004273510319
+            ],
+            [
+              127.29991578743625,
+              36.350140794217225
+            ],
+            [
+              127.30006722966044,
+              36.350251340870315
+            ],
+            [
+              127.30020448971342,
+              36.35037331048853
+            ],
+            [
+              127.30032624569351,
+              36.35050552848852
+            ],
+            [
+              127.30043132498726,
+              36.350646721587474
+            ],
+            [
+              127.30051871556394,
+              36.350795530063664
+            ],
+            [
+              127.30058757572415,
+              36.35095052084956
+            ],
+            [
+              127.300637242209,
+              36.35111020133151
+            ],
+            [
+              127.30066723659142,
+              36.35127303372323
+            ],
+            [
+              127.30067726988786,
+              36.3514374498746
+            ],
+            [
+              127.30066724534612,
+              36.35160186637321
+            ],
+            [
+              127.30063725938196,
+              36.35176469979329
+            ],
+            [
+              127.30058760065542,
+              36.35192438194518
+            ],
+            [
+              127.30051874729543,
+              36.352079374978445
+            ],
+            [
+              127.30043136229955,
+              36.35222818619308
+            ],
+            [
+              127.3003262871527,
+              36.35236938241629
+            ],
+            [
+              127.30020453372627,
+              36.352501603806296
+            ],
+            [
+              127.30006727453551,
+              36.35262357695001
+            ],
+            [
+              127.29991583144907,
+              36.3527341271286
+            ],
+            [
+              127.29975166295905,
+              36.352832189632664
+            ],
+            [
+              127.2995763501345,
+              36.352916820017846
+            ],
+            [
+              127.29939158139351,
+              36.35298720320231
+            ],
+            [
+              127.29919913624036,
+              36.35304266131805
+            ],
+            [
+              127.29900086812509,
+              36.35308266024074
+            ],
+            [
+              127.29879868658968,
+              36.353106814734836
+            ],
+            [
+              127.2985945388741,
+              36.35311489216456
+            ]
+          ]
+
+        };
+
+        // Create a symbol for rendering the graphic
+        const fillSymbol = {
+          type: "simple-fill", // autocasts as new SimpleFillSymbol()
+          color: [0, 0, 255, 0.5],
+          outline: {
+            // autocasts as new SimpleLineSymbol()
+            color: [255, 255, 255],
+            width: 1
+          }
+        };
+
+        // Add the geometry and symbol to a new graphic
+        const polygonGraphic = new Graphic({
+          geometry: polygon,
+          symbol: fillSymbol
+        });
+
+        // Add the graphics to the view's graphics layer
+        view.graphics.addMany([pointGraphic, polylineGraphic, polygonGraphic]);
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
 </html>
